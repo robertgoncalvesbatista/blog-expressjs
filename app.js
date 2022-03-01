@@ -6,14 +6,17 @@ const express = require("express")
 const session = require("express-session")
 const flash = require("connect-flash")
 const exhbs = require("express-handlebars")
+const Handlebars = require("handlebars")
 const path = require("path")
+
+const { allowInsecurePrototypeAccess } = require('@handlebars/allow-prototype-access');
 
 const app = express()
 
 const passport = require("passport")
-require("./config/auth")(passport)
+require("./src/config/auth")(passport)
 
-const { eAdmin } = require("./helpers/eAdmin") //{eAdmin}-> significa pegar apenas esta função    
+const { eAdmin } = require("./src/helpers/eAdmin") //{eAdmin}-> significa pegar apenas esta função    
 
 // Configurar session
 app.use(session({
@@ -43,19 +46,19 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
 // Configurar handlebars
-app.engine('handlebars', exhbs({ defaultLayout: "main" }));
-app.set('view engine', 'handlebars');
-app.set('views', './src/views');
+app.engine("handlebars", exhbs({ defaultLayout: "main", handlebars: allowInsecurePrototypeAccess(Handlebars) }));
+app.set("view engine", "handlebars");
+app.set("views", "./src/views");
 
 // Public
-app.use(express.static(path.join(__dirname, "public")))
+app.use(express.static(path.join(__dirname, "src/public")))
 
 // Routes
 app.use("/", require("./src/routes/main"))
-app.use('/admin', eAdmin, require("./routes/admin"))    // eAdmin => Verificar se o usuário tem permissão de administrador
-app.use("/usuarios", require("./routes/usuario"))
+app.use('/admin', eAdmin, require("./src/routes/admin"))    // eAdmin => Verificar se o usuário tem permissão de administrador
+app.use("/usuario", require("./src/routes/usuario"))
 
 // Server
-app.listen(process.env.PORT || 8081, () => {
-    console.log("Servidor rodando!");
+app.listen(process.env.PORT || 3000, () => {
+    console.log(`Server is running... http://localhost:${process.env.PORT}`);
 });

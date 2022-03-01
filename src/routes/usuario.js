@@ -6,11 +6,11 @@ const Usuario = require("../models/Usuario")
 
 const routes = Router()
 
-routes.get("/cadastro", (req, res) => {
+routes.get("/register", (req, res) => {
     res.render("usuarios/cadastro")
 })
 
-routes.post("/cadastro", (req, res) => {
+routes.post("/register", (req, res) => {
     var erros = []
 
     //Validação de dados do formulário
@@ -42,7 +42,7 @@ routes.post("/cadastro", (req, res) => {
         Usuario.findOne({ email: req.body.email }).then((usuario) => {
             if (usuario) {
                 req.flash("error_msg", "Já existe uma conta com esse e-email no nosso sistema.")
-                res.redirect("/usuarios/cadastro")
+                res.redirect("/usuario/register")
             } else {
                 const novoUsuario = new Usuario({
                     nome: req.body.nome,
@@ -86,7 +86,7 @@ routes.post("/login", (req, res, next) => {
     //Autenticar usuário
     passport.authenticate("local", {
         successRedirect: "/", // se autenticação ocorrer com sucesso
-        failureRedirect: "/usuarios/login", // se ocorrer alguma falha na autenticação
+        failureRedirect: "/usuario/login", // se ocorrer alguma falha na autenticação
         failureFlash: true
     })(req, res, next)
 })

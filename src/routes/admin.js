@@ -7,16 +7,8 @@ const { eAdmin } = require("../helpers/eAdmin") //{eAdmin}-> significa pegar ape
 
 const routes = Router()
 
-routes.get("/", (req, res) => {
-    res.render("admin/index")
-})
-
-routes.get("/posts", eAdmin, (req, res) => {
-    res.send("Página de posts")
-})
-
 //Lista de categorias
-routes.get("/categorias", eAdmin, (req, res) => {
+routes.get("/categoria/readAll", eAdmin, (req, res) => {
     //Listar todas as categorias
     Categoria.find().sort({ date: 'desc' }).then((categorias) => {
         res.render("admin/categorias", { categorias: categorias })
@@ -31,7 +23,7 @@ routes.get("/categorias/add", eAdmin, (req, res) => {
 })
 
 //Salvar Categoria no banco
-routes.post("/categorias/nova", eAdmin, (req, res) => {
+routes.post("/categoria/create", eAdmin, (req, res) => {
     var erros = []
 
     //Validação do formulário
@@ -66,8 +58,8 @@ routes.post("/categorias/nova", eAdmin, (req, res) => {
     }
 })
 
-//Editar categoria
-routes.get("/categorias/edit/:id", eAdmin, (req, res) => {
+// Página de edição de categoria
+routes.get("/categoria/update/:id", eAdmin, (req, res) => {
     Categoria.findOne({ _id: req.params.id }).then((categoria) => {
 
         res.render("admin/editcategorias", { categoria: categoria })
@@ -79,8 +71,8 @@ routes.get("/categorias/edit/:id", eAdmin, (req, res) => {
     })
 })
 
-//Salvar a edição da categoria
-routes.post("/categorias/edit", eAdmin, (req, res) => {
+// Editar categoria
+routes.post("/categoria/update", eAdmin, (req, res) => {
 
     Categoria.findOne({ _id: req.body.id }).then((categoria) => {
 
@@ -106,7 +98,7 @@ routes.post("/categorias/edit", eAdmin, (req, res) => {
 })
 
 //Deletar categoria
-routes.post("/categorias/deletar", eAdmin, (req, res) => {
+routes.get("/categoria/delete/:id", eAdmin, (req, res) => {
     //id vindo do formulario em método post
     Categoria.remove({ _id: req.body.id }).then(() => {
         req.flash("success_msg", "Categoria deletada com sucesso!")
@@ -117,8 +109,9 @@ routes.post("/categorias/deletar", eAdmin, (req, res) => {
     })
 })
 
-//Listagem de postagens
-routes.get("/postagens", eAdmin, (req, res) => {
+// Postagens
+// Listar postagens
+routes.get("/postagem/readAll", eAdmin, (req, res) => {
     Postagem.find().populate("categoria").sort({ data: "desc" }).then((postagens) => {
         res.render("admin/postagens", { postagens: postagens })
     }).catch((error) => {
@@ -128,23 +121,18 @@ routes.get("/postagens", eAdmin, (req, res) => {
 
 })
 
-//Tela de cadastro de postagem
-routes.get("/postagens/add", eAdmin, (req, res) => {
-
+// Página de criação de postagem
+routes.get("/postagem/create", eAdmin, (req, res) => {
     Categoria.find().then((categorias) => {
         res.render("admin/addpostagem", { categorias: categorias })
-
     }).catch((error) => {
-
         req.flash("error_msg", "Houve um erro ao carregar o formulário")
         res.redirect("/admin")
     })
-
 })
 
-//Salvar dados da criação da postagem no banco
-routes.post("/postagens/nova", eAdmin, (req, res) => {
-
+// Salvar postagem
+routes.post("/postagem/create", eAdmin, (req, res) => {
     var erros = []
 
     if (req.body.categoria === '0') {
@@ -155,7 +143,6 @@ routes.post("/postagens/nova", eAdmin, (req, res) => {
         //mostrar na tela, caso dê algum tipo de erro
         res.render('admin/addpostagem', { erros: erros });
     } else {
-
         const novaPostagem = {
             titulo: req.body.titulo,
             slug: req.body.slug,
@@ -164,8 +151,6 @@ routes.post("/postagens/nova", eAdmin, (req, res) => {
             categoria: req.body.categoria,
             autor: req.body.autor
         }
-
-        console.log(novaPostagem)
 
         new Postagem(novaPostagem).save().then(() => {
             req.flash("success_msg", "Postagem criada com sucesso.")
@@ -178,9 +163,8 @@ routes.post("/postagens/nova", eAdmin, (req, res) => {
 
 })
 
-//Página de edição de postagem
-routes.get("/postagens/edit/:id", eAdmin, (req, res) => {
-
+// Página de edição de postagem
+routes.get("/postagem/update/:id", eAdmin, (req, res) => {
     //Buscar em seguidas
     Postagem.findOne({ _id: req.params.id }).then((postagem) => {
 
@@ -199,11 +183,9 @@ routes.get("/postagens/edit/:id", eAdmin, (req, res) => {
 
 })
 
-//Salvar a edição da postagem
-routes.post("/postagem/edit", eAdmin, (req, res) => {
-
+// Editar postagem
+routes.post("/postagem/update", eAdmin, (req, res) => {
     Postagem.findOne({ _id: req.body.id }).then((postagem) => {
-
         postagem.titulo = req.body.titulo,
             postagem.slug = req.body.slug,
             postagem.descricao = req.body.descricao,
@@ -214,24 +196,19 @@ routes.post("/postagem/edit", eAdmin, (req, res) => {
         postagem.save().then(() => {
             req.flash("success_msg", "Postagem editada com sucesso.")
             res.redirect("/admin/postagens")
-
         }).catch((error) => {
             req.flash("error_msg", "Houve um erro ao editar a postagem.")
             res.redirect("/admin/postagens")
         })
-
     }).catch((error) => {
         console.log(error)
         req.flash("error_msg", "Houve um erro ao salvar a edição.")
         res.redirect("/admin/postagens")
     })
-
 })
 
-//Deletar postagem 
-//Outra forma de deletar, mas não é tão segura
-routes.get("/postagens/deletar/:id", eAdmin, (req, res) => {
-
+// Deletar postagem 
+routes.get("/postagem/delete/:id", eAdmin, (req, res) => {
     Postagem.remove({ _id: req.params.id }).then(() => {
         req.flash("error_msg", "Postagem deletada com sucesso.")
         res.redirect("/admin/postagens")
