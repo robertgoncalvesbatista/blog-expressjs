@@ -1,9 +1,14 @@
-if(process.env.NODE_ENV == "production"){
-    module.exports = {
-        mongoURI: "mongodb+srv://patrick:<Patrick@Chagas21>@cluster0-qayvt.mongodb.net/test?retryWrites=true&w=majority"
-    }
-}else{
-    module.exports = {
-        mongoURI: "mongodb://localhost/blogapp"
-    }
-}
+require("dotenv").config()
+
+const { connect, connection } = require("mongoose")
+
+// Mongoose
+connect(process.env.DATABASE, {
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+    useNewUrlParser: true,
+    useCreateIndex: true
+})
+
+connection.on("error", () => console.error("Erro de conexão ao MongoDB: "))
+connection.once("open", () => console.log("Banco de dados MongoDB conectado!"))

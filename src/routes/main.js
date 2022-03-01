@@ -1,8 +1,9 @@
 const { Router } = require("express")
-const routes = Router()
 
 const Postagem = require("../models/Postagem")
 const Categoria = require("../models/Categoria")
+
+const routes = Router()
 
 //Rota Principal
 routes.get("/", (req, res) => {
@@ -17,14 +18,12 @@ routes.get("/", (req, res) => {
 //Postagem - Leia Mais
 routes.get("/postagem/:slug", (req, res) => {
     Postagem.findOne({ slug: req.params.slug }).then((postagem) => {
-
         if (postagem) {
             res.render("postagem/index", { postagem: postagem })
         } else {
             req.flash("error_msg", "Está postagem não existe.")
             res.redirect("/")
         }
-
     }).catch((error) => {
         req.flash("error_msg", "Houve um erro interno.")
         res.redirect("/")
@@ -44,26 +43,17 @@ routes.get("/categorias", (req, res) => {
 //Listar postagens pertencentes a uma certa categoria
 routes.get("/categorias/:slug", (req, res) => {
     Categoria.findOne({ slug: req.params.slug }).then((categoria) => {
-
         if (categoria) {
-
             Postagem.find({ categoria: categoria._id }).then((postagens) => {
-
                 res.render("categorias/postagens", { postagens: postagens, categoria: categoria })
-
             }).catch((error) => {
-
                 req.flash("error_msg", "Houve um erro ao listar as postagens.")
                 res.redirect("/")
             })
-
         } else {
-
             req.flash("error_msg", "Essa categoria não existe.")
             res.redirect("/")
-
         }
-
     }).catch((error) => {
         req.flash("error_msg", "Houve um erro interno ao carregar a página dessa categoria.")
         res.redirect("/")
