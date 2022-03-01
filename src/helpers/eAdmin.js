@@ -1,5 +1,5 @@
 module.exports = {
-    eAdmin: function (req, res, next) {
+    eAdmin: (req, res, next) => {
         // Verificar se um certo usuário está logado ou não
         // Se eAdmin for == 1 é administrador
         if (req.isAuthenticated() && req.user.eAdmin == 1) {

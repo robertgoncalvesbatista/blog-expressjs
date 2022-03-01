@@ -12,12 +12,8 @@ module.exports = {
             erros.push({ texto: "Slug inválido" })
         }
 
-        if (req.body.name.length < 2) {
-            erros.push({ texto: "O name da category é muito pequeno." })
-        }
-
         if (erros.length > 0) {
-            res.render("categorys/create", { erros: erros })
+            res.render("categorias/create", { erros: erros })
         } else {
             const newCategory = {
                 name: req.body.name,
@@ -25,7 +21,7 @@ module.exports = {
             }
 
             new Category(newCategory).save().then(() => {
-                req.flash("success_msg", "category criada com sucesso!")
+                req.flash("success_msg", "Category created succesfully!")
                 res.redirect("/")
             }).catch((error) => {
                 req.flash("error_msg", "Houve um erro ao salvar a category, tenta novamente!")
@@ -43,7 +39,7 @@ module.exports = {
                     res.redirect("/")
                 })
             } else {
-                req.flash("error_msg", "Essa categoria não existe.")
+                req.flash("error_msg", "This category not exist!")
                 res.redirect("/")
             }
         }).catch((error) => {
@@ -57,24 +53,24 @@ module.exports = {
             category.slug = req.body.slug;
 
             category.save().then(() => {
-                req.flash("success_msg", "category editada com sucesso!")
+                req.flash("success_msg", "Category edited succesfully!")
                 res.redirect("/")
             }).catch((error) => {
-                req.flash("error_msg", "Houve um erro interno ao salvar a edição da category.")
+                req.flash("error_msg", "There's an error on save the edition of category!")
                 res.redirect("/")
             })
         }).catch((error) => {
-            req.flash("error_msg", "Houve um erro ao editar category.")
+            req.flash("error_msg", "There's an error on edit category!")
             res.redirect("/")
         })
 
     },
     async delete(req, res) {
-        Category.remove({ _id: req.body.id }).then(() => {
-            req.flash("success_msg", "category deletada com sucesso!")
+        Category.deleteOne({ _id: req.params.id }).then(() => {
+            req.flash("success_msg", "Category deleted succesfully!")
             res.redirect("/")
         }).catch((error) => {
-            req.flash("error_msg", "Houve um erro ao deletar category.")
+            req.flash("error_msg", "There's an error on delete category!")
             res.redirect("/")
         })
     }

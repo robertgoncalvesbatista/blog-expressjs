@@ -1,20 +1,22 @@
 <h2>Lista de Postagens:</h2>
 <hr>
-<a href="/admin/postagens/add"><button class="btn btn-success">Nova Postagem</button></a>
+<a href="/postagem/create"><button class="btn btn-success">Nova Postagem</button></a>
 
-{{#each postagens}}
+{{#each post}}
 <div class="card mt-4">
     <div class="card-body">
-        <h4>Título: {{titulo}}</h4>
+        <h4>Título: {{title}}</h4>
+
         <p>Slug: {{slug}}</p>
-        <p>Descrição: {{descricao}}</p>
-        <small>Data da criação: {{#formatDate data}} {{/formatDate}}</small><br>
-        <small>Categoria: {{categoria.nome}}</small>
-        <br>
-        <a href="/admin/postagens/edit/{{_id}}"><button class="mt-3 btn btn-success">Editar Postagem</button></a>
-        <a href="/admin/postagens/deletar/{{_id}}"><button class="mt-3 btn btn-danger">Deletar Postagem</button></a>
+        <p>Descrição: {{description}}</p>
+
+        <small>Data da criação: {{date}}</small><br>
+        <small>Categoria: {{category.name}}</small><br>
+
+        <a href="/postagem/update/{{_id}}"><button class="mt-3 btn btn-warning">Editar postagem</button></a>
+        <a href="/postagem/delete/{{_id}}"><button class="mt-3 btn btn-danger">Deletar postagem</button></a>
     </div>
 </div>
 {{else}}
-<p>Nenhuma postagem registada.</p>
+<h4 class="mt-3" style="text-align: center;">Nenhuma categoria registada.</h4>
 {{/each}}

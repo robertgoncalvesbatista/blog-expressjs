@@ -12,7 +12,7 @@ const routes = Router()
 
 // Rota principal
 routes.get("/", (req, res) => {
-    Post.find().populate("categoria").sort({ data: "desc" }).then((post) => {
+    Post.find().populate("category").sort({ data: "desc" }).then((post) => {
         res.render("index", { post: post })
     }).catch((error) => {
         req.flash("error_msg", "Houve um erro interno.")
@@ -27,7 +27,7 @@ routes.get("/categoria/create", eAdmin, (req, res) => res.render("categorias/cre
 
 // Página listagem de categorias
 routes.get("/categoria/readAll", eAdmin, (req, res) => {
-    Category.find().sort({ date: 'desc' }).then((category) => {
+    Category.find().then((category) => {
         res.render("categorias/index", { category: category })
     }).catch((error) => {
         req.flash("error_msg", "Houve um erro ao listar as categorias.")

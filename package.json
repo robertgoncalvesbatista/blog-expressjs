@@ -1,6 +1,6 @@
 {
     "name": "full-stack-nodejs-blog",
-    "version": "1.0.0",
+    "version": "2.1.0",
     "main": "app.js",
     "dependencies": {
         "@handlebars/allow-prototype-access": "^1.0.5",

@@ -75,6 +75,7 @@ module.exports = {
         //Autenticar usuário
         passport.authenticate("local", {
             successRedirect: "/", // se autenticação ocorrer com sucesso
+            successFlash: true,
             failureRedirect: "/auth/login", // se ocorrer alguma falha na autenticação
             failureFlash: true
         })(req, res, next)

@@ -15,23 +15,17 @@
    </div>
 </div>
 
-<div class="container px-4 py-5" id="featured-3">
-   <h2 class="pb-2 border-bottom">Postagens</h2>
-   <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
-      {{#each postagens}}
-      <div class="feature col">
-         <h2>{{categoria.nome}}</h2>
-         <small>{{#formatDate data}}{{/formatDate}}</small>
-         <p>{{descricao}}</p>
-         <a href="/postagem/{{slug}}" class="icon-link">
-            {{titulo}}
-            <svg class="bi" width="1em" height="1em">
-               <use xlink:href="#chevron-right"></use>
-            </svg>
-         </a>
+<div class="list-group">
+   {{#each post}}
+   <a href="/postagem/{{slug}}" class="list-group-item list-group-item-action">
+      <div class="d-flex w-100 justify-content-between">
+         <h5 class="mb-1">{{category.name}}</h5>
+         <small>{{date}}</small>
       </div>
-      {{else}}
-      <h4>Não há postagens</h4>
-      {{/each}}
-   </div>
+      <p class="mb-1">{{title}}</p>
+      <small>{{content}}</small>
+   </a>
+   {{else}}
+   <h4>Não há postagens</h4>
+   {{/each}}
 </div>
