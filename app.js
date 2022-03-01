@@ -55,8 +55,7 @@ app.use(express.static(path.join(__dirname, "src/public")))
 
 // Routes
 app.use("/", require("./src/routes/main"))
-app.use('/admin', eAdmin, require("./src/routes/admin"))    // eAdmin => Verificar se o usuário tem permissão de administrador
-app.use("/usuario", require("./src/routes/usuario"))
+app.use("/auth", require("./src/routes/auth"))
 
 // Server
 app.listen(process.env.PORT || 3000, () => {

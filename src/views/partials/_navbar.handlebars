@@ -2,11 +2,11 @@
   <ul class="nav nav-pills">
     <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">Home</a></li>
     {{#if user.eAdmin}}
-    <li class="nav-item"><a href="/categorias" class="nav-link">Categorias</a></li>
-    <li class="nav-item"><a href="/postagens" class="nav-link">Postagens</a></li>
+    <li class="nav-item"><a href="/categoria/readAll" class="nav-link">Categorias</a></li>
+    <li class="nav-item"><a href="/postagem/readAll" class="nav-link">Postagens</a></li>
     {{else}}
-    <li class="nav-item"><a href="/usuario/login" class="nav-link">Login</a></li>
-    <li class="nav-item"><a href="/usuario/register" class="nav-link">Register</a></li>
+    <li class="nav-item"><a href="/auth/login" class="nav-link">Login</a></li>
+    <li class="nav-item"><a href="/auth/register" class="nav-link">Register</a></li>
     {{/if}}
   </ul>
 </header>

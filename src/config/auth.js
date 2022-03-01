@@ -2,34 +2,34 @@ const localStrategy = require("passport-local")
 const bcrypt = require("bcryptjs")
 
 //Model de Usuário
-const Usuario = require("../models/Usuario")
+const User = require("../models/User")
 
 module.exports = function (passport) {
-    passport.use(new localStrategy({ usernameField: 'email', passwordField: 'senha' }, (email, senha, done) => {
-        Usuario.findOne({ email: email }).then((usuario) => {
-            if (!usuario) {
+    passport.use(new localStrategy({ usernameField: 'email', passwordField: 'password' }, (email, password, done) => {
+        User.findOne({ email: email }).then((user) => {
+            if (!user) {
                 return done(null, false, { message: "Esta conta não existe" })
             }
 
-            bcrypt.compare(senha, usuario.senha, (error, batem) => {
-                if (batem) {
-                    return done(null, usuario)
+            bcrypt.compare(password, user.password, (error, match) => {
+                if (match) {
+                    return done(null, user)
                 } else {
-                    return done(null, false, { message: "Usuário ou senha incorreta" })
+                    return done(null, false, { message: "Usuário ou password incorreta" })
                 }
             })
         })
     }))
 
     //Salvar os dados do usuário em uma sessão
-    passport.serializeUser((usuario, done) => {
-        done(null, usuario.id)
+    passport.serializeUser((user, done) => {
+        done(null, user.id)
     })
 
     passport.deserializeUser((id, done) => {
         //Procurar um usuário pelo ID dele
-        Usuario.findById(id, (error, usuario) => {
-            done(error, usuario)
+        User.findById(id, (error, user) => {
+            done(error, user)
         })
     })
 }

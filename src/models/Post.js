@@ -1,7 +1,7 @@
 const { Schema, model } = require("mongoose")
 
-const PostagemSchema = new Schema({
-    titulo: {
+const PostSchema = new Schema({
+    title: {
         type: String,
         required: true
     },
@@ -9,27 +9,27 @@ const PostagemSchema = new Schema({
         type: String,
         required: true
     },
-    descricao: {
+    description: {
         type: String,
         required: true
     },
-    conteudo: {
+    content: {
         type: String,
         required: true
     },
-    categoria: {
+    category: {
         type: Schema.Types.ObjectId,
-        ref: "categorias",
+        ref: "Category",
         required: true
     },
-    data: {
+    date: {
         type: Date,
         default: Date.now()
     },
-    autor: {
+    author: {
         type: String,
         required: true
     }
 })
 
-module.exports = model("Postagem", PostagemSchema)
+module.exports = model("Post", PostSchema)
