@@ -9,5 +9,5 @@ Projeto de um blog com autenticação de usuários com permições de acesso.
 ### Technologias
 
 [![nodejs](https://img.shields.io/badge/Runtime-Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/en/)
-[![mongodb](https://img.shields.io/badge/Database-MongoDB-4EA94B?style=for-the-badge&logo=node.js&logoColor=white)](https://www.mongodb.com/)
-[![bootstrap](https://img.shields.io/badge/Styles-Bootstrap-563D7C?style=for-the-badge&logo=node.js&logoColor=white)](https://getbootstrap.com/)
+[![mongodb](https://img.shields.io/badge/Database-MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
+[![bootstrap](https://img.shields.io/badge/Styles-Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white)](https://getbootstrap.com/)
