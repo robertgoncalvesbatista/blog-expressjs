@@ -2,7 +2,7 @@
 ![count-languages](https://img.shields.io/github/languages/count/robertgoncalvesbatista/full-stack-nodejs-blog)
 ![vulnerabilities](https://img.shields.io/snyk/vulnerabilities/github/robertgoncalvesbatista/full-stack-nodejs-blog)
 
-# Blog Nodejs
+# Blog ExpressJS
 
 Projeto de um blog com autenticação de usuários com permições de acesso.
 
